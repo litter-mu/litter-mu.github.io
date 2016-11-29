@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>金融链</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/navlist.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div class="jrl_layout">
+    <!--搜索-->
+    <header class="jrl_header">
+        <div class="jrl_header_box">
+            <!-- 头部logo图片 -->
+            <a href="index.html" class="icon_logo"></a>
+            <!--是为了在移动端能调用我们的小键盘 把enter键变为搜索-->
+            <form action="">
+                <span class="icon_search"></span>
+                <input class="search" type="search"/>
+                <input class="btn" type="button" value="发需求"></form>
+            <a href="my.html" class="my">我的</a>
+        </div>
+    </header>
+    <nav class="jrl_navlist_nav">
+        <div class="jrl_nav_box">
+            <input type="button" value="综合">
+            <input class="nav_icon" type="button" value="时间 "><span></span>
+            <input type="button" value="访问量">
+            <input type="button" value="筛选">
+        </div>
+    </nav>
+    <div class="jrl-main clearfix">
+        <div class="jrl-main-header">
+            <span>业务列表</span>
+            <a href="#">今日更新2条</a>
+        </div>
+        <div class="jrl-main-content" id="contents">
+        </div>
+    </div>
+    <div class="bottom-footer" style="cursor: pointer" id="btn"><p>点击加载更多</p></div>
+</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/template-native.js"></script>
+<script id="test" type="text/html">
+
+    <% for(var i = 0; i < data.length; i++) { %>
+
+    <div class="contents">
+        <div class="top">
+            <span><%= data[i].content %></span>
+            <div class="top-right">
+                <a href="#" class="red"><%= data[i].status1 %></a>
+                <a href="#" class="blue"><%= data[i].status2 %></a>
+            </div>
+        </div>
+        <div class="bottom">
+            <span><%= data[i].username %> <%= data[i].tel %></span>
+            <a href="#"><%= data[i].data %></a>
+        </div>
+    </div>
+    <% } %>
+
+</script>
+<script>
+    loadHtml();
+    $("#btn").on("click", function(){
+        loadHtml();
+    });
+
+// var data = [
+//  {
+//       "id": "1",
+//       "content": "这是具体内容部分",
+//       "username": "王小二",
+//       "tel": "12345657890",
+//       "data": "2016/08/31",
+//       "status1": "顶",
+//       "status2": "荐",
+//       "status3":"急"
+//     },
+//     {
+//       "id": "2",
+//       "content": "这是具体内容部分",
+//       "username": "王小二",
+//       "tel": "12345657890",
+//       "data": "2016/08/31",
+//       "status1": "顶",
+//       "status2": "荐",
+//       "status3":"急"
+//     },
+//     {
+//       "id": "3",
+//       "content": "这是具体内容部分",
+//       "username": "王小二",
+//       "tel": "12345657890",
+//       "data": "2016/08/31",
+//       "status1": "顶",
+//       "status2": "荐",
+//       "status3":"急"
+//     },
+//     {
+//       "id": "4",
+//       "content": "这是具体内容部分",
+//       "username": "王小二",
+//       "tel": "12345657890",
+//       "data": "2016/08/31",
+//       "status1": "顶",
+//       "status2": "荐",
+//       "status3":"急"
+//     },
+//     {
+//       "id": "5",
+//       "content": "这是具体内容部分",
+//       "username": "王小二",
+//       "tel": "12345657890",
+//       "data": "2016/08/31",
+//       "status1": "顶",
+//       "status2": "荐",
+//       "status3":"急"
+//     },
+//     {
+//       "id": "6",
+//       "content": "这是具体内容部分",
+//       "username": "王小二",
+//       "tel": "12345657890",
+//       "data": "2016/08/31",
+//       "status1": "顶",
+//       "status2": "荐",
+//       "status3":"急"
+//     }
+
+// ]
+// function loadHtml(){
+//  var html = template("test", data);
+//  console.log(data)
+//         console.log(html);
+//         document.getElementById("contents").innerHTML += html;
+
+// }
+
+    function loadHtml(){
+        $.ajax({
+            url: "./json2.json",
+            type: "post",
+            dataType: "json",
+            error: function(){
+                console.log("loading.falid");
+            },
+            success: function(data){
+                 console.log(data.data)
+                // var datas = JSON.parse(data)
+                // var infos = {info: datas}
+                var html = template('test', data)
+                 console.log(html);
+                document.getElementById("contents").innerHTML += html;
+
+            }
+        })
+    }
+
+</script>
+
+</html>
